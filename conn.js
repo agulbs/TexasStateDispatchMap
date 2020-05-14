@@ -62,7 +62,7 @@ function renderTables(player, id) {
                 <td>` + player.name + `</td>
                 <td>` + player.Weapon + `</td>
                 <td>` + player.Vehicle + `</td>
-                <td>` + player.LicensePlate + `</td>
+                <td>` + player['Licence Plate'] + `</td>
                 <td><b>Street:</b> ` + location[0] + `<br><b>County:</b> ` + location[1] + `</td>
                 <td><b>x:</b> ` + player.pos.x + `<br><b>y</b>: ` + player.pos.y + `<br><b>z</b>: ` + player.pos.z + `</td>
             </tr>`
@@ -74,8 +74,8 @@ function renderTables(player, id) {
         }
 
         $(info[1]).append(player.Weapon);
-        $(info[2]).append(player.vehicle);
-        $(info[3]).append(player.License);
+        $(info[2]).append(player.Vehicle);
+        $(info[3]).append(player['Licence Plate']);
         $(info[4]).append("<b>Street:</b> " + location[0] + "<br><b>County:</b> " + location[1]);
         $(info[5]).append("<b>x:</b> " + player.pos.x + "<br><b>y</b>: " + player.pos.y + "<br><b>z</b>: " + player.pos.z);
     }
@@ -114,6 +114,8 @@ var socketOnMessage = (msg) => {
             players[player.name] = player;
             playerData[player.name] = player;
         });
+
+
 
         curr_players = Object.keys(players)
             .concat(Object.keys(playerData))

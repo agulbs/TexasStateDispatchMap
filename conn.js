@@ -71,6 +71,14 @@ function renderLeoTables(player, id) {
                 <td><b>x:</b> ` + player.pos.x + `<br><b>y</b>: ` + player.pos.y + `<br><b>z</b>: ` + player.pos.z + `</td>
             </tr>`
         );
+
+
+        $('#leoTable').append(
+            `<tr id="` + player.name + `">
+                <td>` + player.name + `</td>
+            </tr>`
+        );
+
     } else {
         var info = document.getElementById(player.name).children;
         for (var i = 1; i < 6; i++) {
@@ -194,6 +202,13 @@ $(document).ready(function() {
     $("#civInput").on("keyup", function() {
         var value = $(this).val().toLowerCase();
         $("#civTable tr").filter(function() {
+            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+        });
+    });
+
+    $("#leoInput").on("keyup", function() {
+        var value = $(this).val().toLowerCase();
+        $("#leoTable tr").filter(function() {
             $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
         });
     });

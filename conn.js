@@ -4,63 +4,19 @@ var playerCount = {
     civ: 0
 }
 
-// TODO: automate this list
+// callsign dept breakdown
 var playerDept = {
-    // Texas DPS
-    '[1D-14] Jango': '#txdpsTable',
-    '[1D-23] Cy': '#txdpsTable',
-    '[1D-56] Townly': '#txdpsTable',
-    '[1D-96] J.Mcflint': '#txdpsTable',
-    '[1D-13] Ashton.M': '#txdpsTable',
-    '[1D-18] Porter': '#txdpsTable',
-    '[1D-21] Silva': '#txdpsTable',
-    '[1D-22] Northrup': '#txdpsTable',
-    '[1D-24] New': '#txdpsTable',
-    '[1D-28] James': '#txdpsTable',
-    '[1D-33] Warren.J': '#txdpsTable',
-    '[1D-36] Scott': '#txdpsTable',
-    '[1D-40] Bako': '#txdpsTable',
-    '[1D-41] Benson': '#txdpsTable',
-    '[1D-53] Christian': '#txdpsTable',
-    '[1D-70] Manuel': '#txdpsTable',
-    '[1D-72] Mayhem': '#txdpsTable',
-    '[1D-72] Polo': '#txdpsTable',
-
-    // Webb County Sherrifs Office
-    '[1C-01] Carson': '#wcsoTable',
-    '[1C-03] Jacob': '#wcsoTable',
-    '[1C-13] Holder': '#wcsoTable',
-    '[1C-16] Brown': '#wcsoTable',
-    '[1C-38] Miller': '#wcsoTable',
-    '[1C-51] Evans': '#wcsoTable',
-    '[1C-63] Brian': '#wcsoTable',
-    '[1C-75] R. Johnson': '#wcsoTable',
-    '[1C-76] Zack': '#wcsoTable',
-    '[1C-85] J. Favio': '#wcsoTable',
-    '[1C-13] Holder': '#wcsoTable',
-    '[1C-77] Ace': '#wcsoTable',
-    '[1C-77] Cling': '#wcsoTable',
-    '[1C-83] Chestbrench': '#wcsoTable',
-    '[1K-42] Ryan': '#wcsoTable',
-    '[1C-35] S. Valdes': '#wcsoTable',
-
-    // Fire EMS
-    '<LT> [1A-26] Hervey': '#femsTable',
-    '[1A-12] Ramirez': '#femsTable',
-    '[1A-29] Caraker': '#femsTable',
-    '[1A-34] Park': '#femsTable',
-    '[1A-63] Ricky Phantom': '#femsTable',
-    '[1A-93] Morris': '#femsTable',
-    '[1A-30] Waldo Ableton': '#femsTable',
-    '[1A-64] Shades': '#femsTable',
-    '[1A-65] Coopy': '#femsTable',
-    '[1A-77] Allen': '#femsTable',
+    '[1D-': '#txdpsTable',
+    '[1C-': '#wcsoTable',
+    '[1A-': '#femsTable',
+    '<LT>': '#femsTable'
 }
 
+// renders table that holds all LEO data
 function renderLeoTables(player, id) {
     var location = player.Location.split(',');
 
-    if (!document.getElementById(player.name)) {
+    if (!document.getElementById(player.name) && !document.getElementById(player.name + 'LEO')) {
         $(id).append(
             `<tr id="` + player.name + `">
                 <td>` + player.name + `</td>
@@ -74,7 +30,7 @@ function renderLeoTables(player, id) {
 
 
         $('#leoTable').append(
-            `<tr id="` + player.name + `">
+            `<tr id="` + player.name + `LEO">
                 <td>` + player.name + `</td>
             </tr>`
         );
@@ -90,13 +46,19 @@ function renderLeoTables(player, id) {
         $(info[3]).append(player['Licence Plate']);
         $(info[4]).append("<b>Street:</b> " + location[0] + "<br><b>County:</b> " + location[1]);
         $(info[5]).append("<b>x:</b> " + player.pos.x + "<br><b>y</b>: " + player.pos.y + "<br><b>z</b>: " + player.pos.z);
+
+        // var info = document.getElementById(player.name + 'LEO').children;
+        // $(info[0]).empty();
+        // $(info[0]).append(player.name);
+        // playerCount.leo -= 1;
+        // playerCount.leo += 1;
     }
 }
 
 function renderCivTable(player) {
-    if (!document.getElementById(player.name)) {
+    if (!document.getElementById(player.name + 'CIV')) {
         $('#civTable').append(
-            `<tr id="` + player.name + `">
+            `<tr id="` + player.name + `CIV">
                 <td>` + player.name + `</td>
             </tr>`
         );
@@ -139,6 +101,7 @@ var socketOnMessage = (msg) => {
             playerData[player.name] = player;
         });
 
+        // filter out players, save active players
         curr_players = Object.keys(players)
             .concat(Object.keys(playerData))
             .sort()
@@ -149,26 +112,37 @@ var socketOnMessage = (msg) => {
                 return r;
             }, {});
 
-        delete curr_players['undefined']
+        delete playerData['undefined'];
 
-        for (curr in curr_players) {
+        for (curr in playerData) {
             if (!(curr in players)) {
                 var c = document.getElementById(curr);
-                c.remove();
-            }
 
-            if (curr in playerDept) {
-                playerCount.leo += 1;
-                renderLeoTables(players[curr], playerDept[curr]);
+                if (c == null)
+                    c = document.getElementById(curr + 'LEO');
+                if (c == null)
+                    c = document.getElementById(curr + 'CIV');
+
+                c.remove();
             } else {
-                playerCount.civ += 1;
-                renderCivTable(players[curr]);
+
+                var pd = curr.substring(0, 4);
+
+                // check if theyre leo
+                if (pd in playerDept) {
+                    playerCount.leo += 1;
+                    renderLeoTables(players[curr], playerDept[pd]);
+                } else {
+                    playerCount.civ += 1;
+                    renderCivTable(players[curr]);
+                }
             }
         }
     } catch (error) {
         console.log(error);
     }
 
+    // set the player counts
     $('#leoTotal')[0].innerText = playerCount.leo;
     $('#civTotal')[0].innerText = playerCount.civ;
     $('#civLeoTotal')[0].innerText = playerCount.leo + playerCount.civ;

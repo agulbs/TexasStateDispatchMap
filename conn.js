@@ -1,4 +1,8 @@
 var playerData = {}
+var playerCount = {
+    leo: 0,
+    civ: 0
+}
 
 // TODO: automate this list
 var playerDept = {
@@ -53,7 +57,7 @@ var playerDept = {
     '[1A-77] Allen': '#femsTable',
 }
 
-function renderTables(player, id) {
+function renderLeoTables(player, id) {
     var location = player.Location.split(',');
 
     if (!document.getElementById(player.name)) {
@@ -78,6 +82,16 @@ function renderTables(player, id) {
         $(info[3]).append(player['Licence Plate']);
         $(info[4]).append("<b>Street:</b> " + location[0] + "<br><b>County:</b> " + location[1]);
         $(info[5]).append("<b>x:</b> " + player.pos.x + "<br><b>y</b>: " + player.pos.y + "<br><b>z</b>: " + player.pos.z);
+    }
+}
+
+function renderCivTable(player) {
+    if (!document.getElementById(player.name)) {
+        $('#civTable').append(
+            `<tr id="` + player.name + `">
+                <td>` + player.name + `</td>
+            </tr>`
+        );
     }
 }
 
@@ -106,6 +120,8 @@ var socketOnError = (msg) => {
 }
 
 var socketOnMessage = (msg) => {
+    playerCount.leo = 0;
+    playerCount.civ = 0;
     var payload = JSON.parse(msg.data);
     var players = {};
 
@@ -114,8 +130,6 @@ var socketOnMessage = (msg) => {
             players[player.name] = player;
             playerData[player.name] = player;
         });
-
-
 
         curr_players = Object.keys(players)
             .concat(Object.keys(playerData))
@@ -127,17 +141,30 @@ var socketOnMessage = (msg) => {
                 return r;
             }, {});
 
+        delete curr_players['undefined']
+
         for (curr in curr_players) {
             if (!(curr in players)) {
                 var c = document.getElementById(curr);
                 c.remove();
             }
 
-            renderTables(players[curr], playerDept[curr])
+            if (curr in playerDept) {
+                playerCount.leo += 1;
+                renderLeoTables(players[curr], playerDept[curr]);
+            } else {
+                playerCount.civ += 1;
+                renderCivTable(players[curr]);
+            }
         }
     } catch (error) {
         console.log(error);
     }
+
+    $('#leoTotal')[0].innerText = playerCount.leo;
+    $('#civTotal')[0].innerText = playerCount.civ;
+    $('#civLeoTotal')[0].innerText = playerCount.leo + playerCount.civ;
+
 }
 
 $(document).ready(function() {
@@ -160,6 +187,13 @@ $(document).ready(function() {
     $("#feInput").on("keyup", function() {
         var value = $(this).val().toLowerCase();
         $("#femsTable tr").filter(function() {
+            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+        });
+    });
+
+    $("#civInput").on("keyup", function() {
+        var value = $(this).val().toLowerCase();
+        $("#civTable tr").filter(function() {
             $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
         });
     });

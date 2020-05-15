@@ -35,6 +35,19 @@
         .player-data-table {
             margin-top: -16px;
         }
+
+        .table-responsive {
+            max-height: 400px;
+            overflow-y: scroll;
+            margin-top: -15px;
+        }
+
+        thead tr:nth-child(1) th {
+            background: white;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
     </style>
 </head>
 
@@ -48,8 +61,54 @@
         </div>
 
         <div class="row mt-5">
-            <div class="col-12">
+            <div class="col-3">
                 <table class="table">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th id="table-header" style="width:50%">Civlians</th>
+                            <th><input type="text" placeholder="Search" class="form-control" id="civInput"></th>
+                        </tr>
+                    </thead>
+                </table>
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>Name</th>
+                            </tr>
+                        </thead>
+                        <tbody id="civTable" style="max-height:100px;overflow:auto"></tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-1">
+                <table class="table table-striped">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>Civs</th>
+                            <th id="leoTotal"></th>
+                        </tr>
+                    </thead>
+                </table>
+                <table class="table table-striped player-data-table">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>LEOs</th>
+                            <th id="civTotal"></th>
+                        </tr>
+                    </thead>
+                </table>
+                <table class="table table-striped player-data-table">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>Total</th>
+                            <th id="civLeoTotal"></th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+            <div class="col-12 mt-5">
+                <table class="table ">
                     <thead class="thead-dark">
                         <tr>
                             <th id="table-header" style="width:80%">TXDPS</th>
@@ -58,7 +117,7 @@
                     </thead>
                 </table>
             </div>
-            <div class="col-12 player-data-table">
+            <div class="col-12 table-responsive">
                 <table class="table table-striped">
                     <thead class="thead-dark">
                         <tr>
@@ -74,7 +133,7 @@
                 </table>
             </div>
 
-            <div class="col-12">
+            <div class="col-12 mt-5">
                 <table class="table">
                     <thead class="thead-dark">
                         <tr>
@@ -84,7 +143,7 @@
                     </thead>
                 </table>
             </div>
-            <div class="col-12 player-data-table ">
+            <div class="col-12 table-responsive ">
                 <table class="table table-striped">
                     <thead class="thead-dark">
                         <tr>
@@ -100,7 +159,7 @@
                 </table>
             </div>
 
-            <div class="col-12">
+            <div class="col-12 mt-5">
                 <table class="table">
                     <thead class="thead-dark">
                         <tr>
@@ -110,7 +169,7 @@
                     </thead>
                 </table>
             </div>
-            <div class="col-12 player-data-table">
+            <div class="col-12 table-responsive">
                 <table class="table table-striped">
                     <thead class="thead-dark">
                         <tr>

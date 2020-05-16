@@ -10,7 +10,8 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
-    <script src="./conn.js"></script>
+    <script src="./javascript/playerData.js"></script>
+    <script src="./javascript/sockets.js"></script>
     <style>
         * {
             font-weight: 600;
@@ -127,85 +128,123 @@
                     </thead>
                 </table>
             </div>
-            <div class="col-12 mt-5">
-                <table class="table ">
-                    <thead class="thead-dark">
-                        <tr>
-                            <th id="table-header" style="width:80%">TXDPS</th>
-                            <th id="table-header"><input type="text" placeholder="Search" class="form-control" id="txInput"></th>
-                        </tr>
-                    </thead>
-                </table>
-            </div>
-            <div class="col-12 table-responsive">
-                <table class="table table-striped">
-                    <thead class="thead-dark">
-                        <tr>
-                            <th scope="col" style="width:220px">Name</th>
-                            <th scope="col" style="width:220px">Weapon</th>
-                            <th scope="col" style="width:350px">Vehicle</th>
-                            <th scope="col" style="width:220px">License Plate</th>
-                            <th scope="col" style="width:400px">Location</th>
-                            <th scope="col" style="width:400px">Coordinates</th>
-                        </tr>
-                    </thead>
-                    <tbody id="txdpsTable"></tbody>
-                </table>
-            </div>
 
-            <div class="col-12 mt-5">
-                <table class="table">
-                    <thead class="thead-dark">
-                        <tr>
-                            <th id="table-header" style="width:80%">Webb County SO</th>
-                            <th id="table-header"><input type="text" placeholder="Search" class="form-control" id="wcInput"></th>
-                        </tr>
-                    </thead>
-                </table>
-            </div>
-            <div class="col-12 table-responsive ">
-                <table class="table table-striped">
-                    <thead class="thead-dark">
-                        <tr>
-                            <th scope="col" style="width:220px">Name</th>
-                            <th scope="col" style="width:220px">Weapon</th>
-                            <th scope="col" style="width:350px">Vehicle</th>
-                            <th scope="col" style="width:220px">License Plate</th>
-                            <th scope="col" style="width:400px">Location</th>
-                            <th scope="col" style="width:400px">Coordinates</th>
-                        </tr>
-                    </thead>
-                    <tbody id="wcsoTable"></tbody>
-                </table>
-            </div>
-
-            <div class="col-12 mt-5">
-                <table class="table">
-                    <thead class="thead-dark">
-                        <tr>
-                            <th id="table-header" style="width:80%">Fire & EMS</th>
-                            <th id="table-header"><input type="text" placeholder="Search" class="form-control" id="feInput"></th>
-                        </tr>
-                    </thead>
-                </table>
-            </div>
-            <div class="col-12 table-responsive">
-                <table class="table table-striped">
-                    <thead class="thead-dark">
-                        <tr>
-                            <th scope="col" style="width:220px">Name</th>
-                            <th scope="col" style="width:220px">Weapon</th>
-                            <th scope="col" style="width:350px">Vehicle</th>
-                            <th scope="col" style="width:220px">License Plate</th>
-                            <th scope="col" style="width:400px">Location</th>
-                            <th scope="col" style="width:400px">Coordinates</th>
-                        </tr>
-                    </thead>
-                    <tbody id="femsTable"></tbody>
-                </table>
+            <div class="col-12">
+                <div class="row">
+                    <div class="col-4">
+                        <table class="table ">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th id="table-header" style="width:60%">TXDPS</th>
+                                    <th id="table-header"><input type="text" placeholder="Search" class="form-control" id="txInput"></th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                    <div class="col-4">
+                        <table class="table">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th id="table-header" style="width:60%">Webb County SO</th>
+                                    <th id="table-header"><input type="text" placeholder="Search" class="form-control" id="wcInput"></th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                    <div class="col-4">
+                        <table class="table">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th id="table-header" style="width:60%">Fire & EMS</th>
+                                    <th id="table-header"><input type="text" placeholder="Search" class="form-control" id="feInput"></th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-4">
+                        <table class="table table-striped table-responsive">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th scope="col" style="width:220px">Name</th>
+                                    <th scope="col" style="width:350px">Vehicle</th>
+                                    <th scope="col" style="width:400px">Location</th>
+                                </tr>
+                            </thead>
+                            <tbody id="txdpsTable"></tbody>
+                        </table>
+                    </div>
+                    <div class="col-4">
+                        <table class="table table-striped table-responsive">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th scope="col" style="width:220px">Name</th>
+                                    <th scope="col" style="width:350px">Vehicle</th>
+                                    <th scope="col" style="width:400px">Location</th>
+                                </tr>
+                            </thead>
+                            <tbody id="wcsoTable"></tbody>
+                        </table>
+                    </div>
+                    <div class="col-4">
+                        <table class="table table-striped table-responsive">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th scope="col" style="width:220px">Name</th>
+                                    <th scope="col" style="width:350px">Vehicle</th>
+                                    <th scope="col" style="width:400px">Location</th>
+                                </tr>
+                            </thead>
+                            <tbody id="femsTable"></tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
+
+    <script>
+        $(document).ready(function() {
+            createSocketConnection();
+
+            $("#txInput").on("keyup", function() {
+                var value = $(this).val().toLowerCase();
+                $("#txdpsTable tr").filter(function() {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+            });
+
+            $("#wcInput").on("keyup", function() {
+                var value = $(this).val().toLowerCase();
+                $("#wcsoTable tr").filter(function() {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+            });
+
+            $("#feInput").on("keyup", function() {
+                var value = $(this).val().toLowerCase();
+                $("#femsTable tr").filter(function() {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+            });
+
+            $("#civInput").on("keyup", function() {
+                var value = $(this).val().toLowerCase();
+                $("#civTable tr").filter(function() {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+            });
+
+            $("#leoInput").on("keyup", function() {
+                var value = $(this).val().toLowerCase();
+                $("#leoTable tr").filter(function() {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+            });
+
+        });
+    </script>
 
 
 </body>

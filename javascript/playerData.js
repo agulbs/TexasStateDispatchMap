@@ -25,7 +25,6 @@ function renderLeoTables(player, id) {
             </tr>`
         );
 
-
         $('#leoTable').append(
             `<tr id="` + player.name + `LEO">
                 <td>` + player.name + `</td>
@@ -40,7 +39,6 @@ function renderLeoTables(player, id) {
 
         $(info[1]).append(player.Vehicle);
         $(info[2]).append("<b>Street:</b> " + location[0] + "<br><b>County:</b> " + location[1]);
-
     }
 }
 
@@ -105,13 +103,13 @@ function handleSocketData(data) {
                 }
             }
         }
-    } catch (error) {
-        console.log(error);
-    }
 
-    // set the player counts
-    $('#leoTotal')[0].innerText = playerCount.leo;
-    $('#civTotal')[0].innerText = playerCount.civ;
-    $('#civLeoTotal')[0].innerText = playerCount.leo + playerCount.civ;
+        // set the player counts
+        $('#leoTotal')[0].innerText = playerCount.leo;
+        $('#civTotal')[0].innerText = playerCount.civ;
+        $('#civLeoTotal')[0].innerText = playerCount.leo + playerCount.civ;
+    } catch (error) {
+        console.log("");
+    }
 
 }

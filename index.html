@@ -38,9 +38,11 @@
         }
 
         .table-responsive {
-            max-height: 400px;
+            max-height: 570px;
             overflow-y: scroll;
             margin-top: -15px;
+            border-left: 1px solid #343A40;
+            border-bottom: 1px solid #343A40;
         }
 
         thead tr:nth-child(1) th {
@@ -56,12 +58,18 @@
     <div class="container-fluid">
         <div class="row">
             <nav class="navbar navbar-dark bg-dark col-12">
-                <span class="navbar-brand mb-0 h1">Texas State RP: Player Locater</span>
+                <span class="navbar-brand mb-0 h1">Texas State RP: Dispatch Center</span>
                 <img width="50" height="50" alt="" src="http://www.texasstaterp.com/wp-content/uploads/2020/03/websidte-logo.png" alt="">
             </nav>
         </div>
 
         <div class="row mt-5">
+            <div class="col-5">
+                <div class="embed-responsive embed-responsive-4by3">
+                    <iframe class="embed-responsive-item" src="http://172.83.159.155/map/" id="mapFrame"></iframe>
+                </div>
+
+            </div>
             <div class="col-3">
                 <table class="table">
                     <thead class="thead-dark">
@@ -128,9 +136,8 @@
                     </thead>
                 </table>
             </div>
-
             <div class="col-12">
-                <div class="row">
+                <div class="row mt-5">
                     <div class="col-4">
                         <table class="table ">
                             <thead class="thead-dark">
